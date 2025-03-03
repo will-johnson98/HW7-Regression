@@ -130,7 +130,7 @@ class LogisticRegressor(BaseRegressor):
             The predicted labels (y_pred) for given X.
         """
         z = np.dot(X, self.W)
-        return np.round(1 / (1 + np.exp(-z)))
+        return 1 / (1 + np.exp(-z))
     
     def loss_function(self, y_true, y_pred) -> float:
         """

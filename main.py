@@ -38,8 +38,8 @@ def main():
     log_model = logreg.LogisticRegressor(
         num_feats=6, 
         learning_rate=0.01, 
-        tol=0.0002, 
-        max_iter=2500, 
+        tol=0.0001, 
+        max_iter=5000, 
         batch_size=128,
     )
 
