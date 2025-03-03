@@ -42,6 +42,7 @@ def main():
         max_iter=2500, 
         batch_size=128,
     )
+
     log_model.train_model(X_train, y_train, X_val, y_val)
     log_model.plot_loss_history()
 
