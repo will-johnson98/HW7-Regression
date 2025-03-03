@@ -13,22 +13,22 @@ import pytest
 import numpy as np
 from regression.logreg import LogisticRegressor
 
+
 def test_prediction():
-	"""
+    """
 	Test that the sigmoid function is applied correctly.
 	"""
-	model = LogisticRegressor(num_feats=2)
-	model.W = np.array([0.5, -0.5, 0]) # one for each feature and one bias term
-
-	X = np.array([[1.0, 2.0],
-			      [3.0, 4.0]])
-	X_with_bias = np.hstack([X, np.ones((X.shape[0], 1))]) # add bias to input
-
-	z = np.dot(X_with_bias, model.W)
-	expected = 1 / (1 + np.exp(-z))
-	predictions = model.make_prediction(X_with_bias)
-
-	assert np.allclose(predictions, expected)
+    model = LogisticRegressor(num_feats=2)
+    model.W = np.array([0.5, -0.5, 0.0])  # weights and bias
+    
+    X = np.array([[1.0, 2.0], [3.0, 4.0]])
+    X_with_bias = np.hstack([X, np.ones((X.shape[0], 1))])
+    
+    z = np.dot(X_with_bias, model.W)
+    expected = 1 / (1 + np.exp(-z))
+    
+    predictions = model.make_prediction(X_with_bias)
+    assert np.allclose(predictions, expected)
 
 
 def test_loss_function():
