@@ -119,7 +119,7 @@ class LogisticRegressor(BaseRegressor):
     
     def make_prediction(self, X) -> np.array:
         """
-        Implement logistic function to get estimates (y_pred) for input X values. The logistic
+        TODO: Implement logistic function to get estimates (y_pred) for input X values. The logistic
         function is a transformation of the linear model into an "S-shaped" curve that can be used
         for binary classification.
 
@@ -129,8 +129,8 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             The predicted labels (y_pred) for given X.
         """
-        y_pred = round(1/(1 + np.exp(-X)))
-        return y_pred
+        z = np.dot(X, self.W)
+        return np.round(1 / (1 + np.exp(-z)))
     
     def loss_function(self, y_true, y_pred) -> float:
         """
@@ -144,7 +144,13 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             The mean loss (a single number).
         """
-        pass
+        # Clipping may prevent log(0) errors, but currently causes an error in and of itself.
+        epsilon = 1e-15
+        y_pred = np.clip(y_pred, epsilon, 1 - epsilon)
+
+        loss = -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
+        return loss
         
     def calculate_gradient(self, y_true, X) -> np.ndarray:
         """
@@ -158,4 +164,6 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             Vector of gradients.
         """
-        pass
+        y_pred = self.make_prediction(X)
+        n = X.shape[0]
+        return np.dot(X.T, (y_pred - y_true)) / n
